@@ -19,7 +19,7 @@ labels:
 ### for kong: 
 labels:
   - traefik.enable=true
-  - traefik.docker.network=traefik_default
+  - traefik.docker.network=${TRAEFIK_NETWORK}
   # Router
   - traefik.http.routers.supabase-kong.rule=Host(`${SUPABASE_PUBLIC_URL`)
   - traefik.http.routers.supabase-kong.entrypoints=websecure
@@ -31,7 +31,7 @@ labels:
  ### for functions
  labels:
    - traefik.enable=true
-   - traefik.docker.network=traefik_default
+   - traefik.docker.network=${TRAEFIK_NETWORK}
    # Router
    - traefik.http.routers.supabase-functions.rule=Host(`SUPABASE_FUNCTION_PUBLIC_URL`)
    - traefik.http.routers.supabase-functions.entrypoints=websecure
