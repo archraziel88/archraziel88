@@ -1,0 +1,42 @@
+
+
+### for studio service:
+labels:
+  - traefik.enable=true
+  - traefik.docker.network=${TRAEFIK_NETWORK}
+  # Router
+  - traefik.http.routers.supabase-studio.rule=Host(`${STUDIO_PUBLIC_URL}`)
+  - traefik.http.routers.supabase-studio.entrypoints=websecure
+  - traefik.http.routers.supabase-studio.tls.certresolver=${CERT_RESOLVER}
+  - traefik.http.routers.supabase-studio.middlewares=auth
+  - traefik.http.middlewares.auth.basicauth.users=${BASIC_AUTH}
+  # Services
+  - traefik.http.routers.supabase-studio.service=supabase-studio
+  - traefik.http.services.supabase-studio.loadbalancer.server.port=3000
+  # Middleware
+  - traefik.http.middlewares.upgrade-insecure-requests.headers.contentSecurityPolicy=upgrade-insecure-requests
+
+### for kong: 
+labels:
+  - traefik.enable=true
+  - traefik.docker.network=traefik_default
+  # Router
+  - traefik.http.routers.supabase-kong.rule=Host(`${SUPABASE_PUBLIC_URL`)
+  - traefik.http.routers.supabase-kong.entrypoints=websecure
+  - traefik.http.routers.supabase-kong.tls.certresolver=${CERT_RESOLVER}
+  # Services
+  - traefik.http.routers.supabase-kong.service=supabase-kong
+  - traefik.http.services.supabase-kong.loadbalancer.server.port=8000
+  
+ ### for functions
+ labels:
+   - traefik.enable=true
+   - traefik.docker.network=traefik_default
+   # Router
+   - traefik.http.routers.supabase-functions.rule=Host(`SUPABASE_FUNCTION_PUBLIC_URL`)
+   - traefik.http.routers.supabase-functions.entrypoints=websecure
+   - traefik.http.routers.supabase-functions.tls.certresolver=${CERT_RESOLVER}
+   # Services
+   - traefik.http.routers.supabase-functions.service=supabase-functions
+   - traefik.http.services.supabase-functions.loadbalancer.server.port=8000
+   
